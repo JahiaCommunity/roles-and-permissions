@@ -34,33 +34,44 @@ public class DecorateNodeAction extends Action {
         setName("decorateNode");
         setRequireAuthenticatedUser(false);
         setRequiredMethods("GET,POST");
+        //setRequiredPermission("decorate-action-access");
     }
 
     @Override
     public ActionResult doExecute(final HttpServletRequest req,final RenderContext renderContext,final Resource resource,final JCRSessionWrapper session,final Map<String, List<String>> parameters,final URLResolver urlResolver) throws Exception {
     	
     	LOG.debug("Calling DecorateNodeAction ");
-    	System.out.println("DEBUG 1");
     	
-    	JCRTemplate.getInstance().doExecuteWithSystemSessionAsUser(renderContext.getUser(), renderContext.getWorkspace(), resource.getLocale(), new JCRCallback<Boolean>() {
-			@Override
-			public Boolean doInJCR(JCRSessionWrapper systemSession) throws RepositoryException {
-				
-				JCRNodeWrapper node = systemSession.getNodeByIdentifier(resource.getNode().getIdentifier());
-				
-				if (!node.isNodeType("comix:decorated")) {
-					node.addMixin("comix:decorated");
-					systemSession.save();
-				}
-				
-				String bgColor = getParameter(parameters, "bgColor", "");
-				
-				node.setProperty("bgColor", bgColor);
-				systemSession.save();
-				
-				return true;
-			}
-		});
+    	if (resource.getNode().hasPermission("decorate-action-access")) {
+    		
+    		LOG.info(renderContext.getUser().getName() + " is decorating the node " + resource.getNode());
+    		
+    		JCRTemplate.getInstance().doExecuteWithSystemSessionAsUser(renderContext.getUser(), renderContext.getWorkspace(), resource.getLocale(), new JCRCallback<Boolean>() {
+    			@Override
+    			public Boolean doInJCR(JCRSessionWrapper systemSession) throws RepositoryException {
+    				
+    				JCRNodeWrapper node = systemSession.getNodeByIdentifier(resource.getNode().getIdentifier());
+    				
+    				if (!node.isNodeType("comix:decorated")) {
+    					node.addMixin("comix:decorated");
+    					systemSession.save();
+    				}
+    				
+    				String bgColor = getParameter(parameters, "bgColor", "");
+    				
+    				node.setProperty("bgColor", bgColor);
+    				systemSession.save();
+    				
+    				return true;
+    			}
+    		});
+    		
+    		
+    	} else {
+    		LOG.info(renderContext.getUser().getName() + " NOT ALLOWED !!! to decorate the node " + resource.getNode());
+    		
+    	}
+    	
     	
     	JSONObject response = new JSONObject();
         response.put("message", "Success");

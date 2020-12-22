@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<permissions jcr:primaryType="jnt:permission"
+             xmlns:jcr="http://www.jcp.org/jcr/1.0"
+             xmlns:j="http://www.jahia.org/jahia/1.0"
+             xmlns:jnt="http://www.jahia.org/jahia/nt/1.0">
+    <decorator-permissions jcr:primaryType="jnt:permission">
+        <decorate-action-access jcr:primaryType="jnt:permission"/>
+        <decorate-view-button jcr:primaryType="jnt:permission"/>
+    </decorator-permissions>
+</permissions>
+

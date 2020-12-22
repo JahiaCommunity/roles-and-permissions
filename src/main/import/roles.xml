@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<roles jcr:primaryType="jnt:roles"
+       xmlns:jcr="http://www.jcp.org/jcr/1.0"
+       xmlns:j="http://www.jahia.org/jahia/1.0"
+       xmlns:jnt="http://www.jahia.org/jahia/nt/1.0">
+    <decorator j:hidden="false"
+	    	j:permissionNames="decorate-action-access decorate-view-button"
+	    	j:roleGroup="live-role"
+	    	jcr:primaryType="jnt:role" >
+    	<j:translation_en jcr:description="Gives Acces to Decorate Nodes"
+                  jcr:language="en"
+                  jcr:primaryType="jnt:translation"
+                  jcr:title="Decorate Node"/>
+    </decorator>
+</roles>

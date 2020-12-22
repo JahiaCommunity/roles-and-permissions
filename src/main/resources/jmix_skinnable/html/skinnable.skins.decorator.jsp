@@ -17,7 +17,7 @@
         	       dataType : 'json',
         	       data: { bgColor: bgColor},
         	       success : function(response){
-						console.log("success");
+						console.log("result " + response.succes);
         	       },
         	       error : function(result, statut, error){
          				console.log("error");
@@ -34,19 +34,20 @@
 
 <jcr:nodeProperty name="bgColor" node="${currentNode}" var="bgColor"/>
 
-<div>
-	<c:choose>
-		<c:when test="${renderContext.liveMode}">
-			<input id="setBgVal_${currentNode.identifier}" type="text" value="${bgColor.string}"/> 
-			<button id="setBg_${currentNode.identifier}">Set Background Color</button>		
-		</c:when>
-		<c:otherwise>
-			Decorator is only available in Live Mode.
-		</c:otherwise>
-	</c:choose>
-	
-</div>
-
+<c:if test="${jcr:hasPermission(currentNode, 'decorate-view-button') }">
+	<div>
+		<c:choose>
+			<c:when test="${renderContext.liveMode}">
+				<input id="setBgVal_${currentNode.identifier}" type="text" value="${bgColor.string}"/> 
+				<button id="setBg_${currentNode.identifier}">Set Background Color</button>		
+			</c:when>
+			<c:otherwise>
+				Decorator is only available in Live Mode.
+			</c:otherwise>
+		</c:choose>
+		
+	</div>
+</c:if>
 <div style="background-color: ${bgColor.string} ">
 	${wrappedContent}
 </div>
